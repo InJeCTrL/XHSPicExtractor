@@ -36,4 +36,21 @@ jobs:
             context: .
             file: ./Dockerfile
             push: true
-            tags: injectrl/xhspicextractor:latest
+            tags: ${{ secrets.DOCKERHUB_USERNAME }}/xhspicextractor:latest
+      -
+          name: Get OKTETO Kubeconfig
+          uses: okteto/actions/namespace@v1
+          id: kubeconfig
+          with:
+              token: ${{ secrets.OKTETO_TOKEN }}
+              namespace: ${{ secrets.OKTETO_NAMESPACE }}
+      -
+          name: Deploy and Wait
+          uses: okteto/actions/deploy@v1
+          env:
+            KUBECONFIG: ${{ steps.kubeconfig.outputs.kubeconfig }}
+          with:
+            namespace: ${{ secrets.OKTETO_NAMESPACE }}
+            manifest: k8s.yml
+            tag: ${{ secrets.DOCKERHUB_USERNAME }}/xhspicextractor:latest
+            waitOn: deployment/xhspicextractor
