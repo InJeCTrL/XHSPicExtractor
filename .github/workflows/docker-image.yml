@@ -41,11 +41,13 @@ jobs:
           name: Get OKTETO Kubeconfig
           uses: okteto/actions/namespace@v1
           id: namespace
-          env:
-            KUBECONFIG: ${{ steps.namespace.outputs.kubeconfig }}
           with:
             token: ${{ secrets.OKTETO_TOKEN }}
             namespace: ${{ secrets.OKTETO_NAMESPACE }}
+      -
+          name: debug print
+          run: echo `ls`
+          shell: bash
       -
           name: Deploy and Wait
           uses: okteto/actions/deploy@v1
@@ -53,6 +55,6 @@ jobs:
             KUBECONFIG: ${{ steps.namespace.outputs.kubeconfig }}
           with:
             namespace: ${{ secrets.OKTETO_NAMESPACE }}
-            manifest: okteto/deploy-sales-api.yaml
+            manifest: k8s.yml
             tag: ${{ secrets.DOCKERHUB_USERNAME }}/xhspicextractor:latest
             waitOn: deployment/xhspicextractor
