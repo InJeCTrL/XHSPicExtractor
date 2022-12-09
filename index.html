@@ -68,7 +68,7 @@
 
             $("#set").click(function () {
                 $.ajax({
-                    url: "",
+                    url: "https://xhspicextractor-injectrl.cloud.okteto.net/imgs",
                     type: "post",
                     headers: { "h-captcha-response": $("#captcha")[0].children[0].attributes["data-hcaptcha-response"].nodeValue },
                     data: $("#targettxt").val(),

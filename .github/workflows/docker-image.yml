@@ -55,6 +55,6 @@ jobs:
             KUBECONFIG: ${{ steps.namespace.outputs.kubeconfig }}
           with:
             namespace: ${{ secrets.OKTETO_NAMESPACE }}
-            manifest: docker-compose.yml
+            manifest: okteto.yml
             tag: ${{ secrets.DOCKERHUB_USERNAME }}/xhspicextractor:latest
             waitOn: deployment/xhspicextractor
