@@ -48,7 +48,7 @@ jobs:
           name: Deploy and Wait
           uses: okteto/actions/deploy@v1
           env:
-            KUBECONFIG: ${{ steps.kubeconfig.outputs.kubeconfig }}
+            KUBECONFIG: ${{ steps.namespace.outputs.kubeconfig }}
           with:
             namespace: ${{ secrets.OKTETO_NAMESPACE }}
             manifest: k8s.yml
