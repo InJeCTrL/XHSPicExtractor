@@ -4,7 +4,7 @@ version: '3.4'
 
 services:
   xhspicextractor:
-    image: xhspicextractor
+    image: injectrl/xhspicextractor:latest
     build:
       context: .
       dockerfile: ./Dockerfile
