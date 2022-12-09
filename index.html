@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>小红书原图提取</title>
+    <meta charset="utf-8" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.5.7/css/layui.css" />
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+</head>
+<style type="text/css">
+    td>.layui-table-cell {
+        height: auto;
+        white-space: normal;
+    }
+</style>
+
+<body style="background-color: lightgoldenrodyellow;">
+    <script src="https://www.layuicdn.com/layui-v2.5.7/layui.js"></script>
+    <div class="layui-fluid">
+        <div
+            style="text-align: center;padding-top: 30px; padding-bottom: 10px;font-family:Arial, Helvetica, sans-serif;font-size: 3em;color:red;">
+            小红书原图提取
+        </div>
+        <div class="layui-tab" lay-filter="tabs">
+            <ul class="layui-tab-title" style="display: none;">
+                <li class="layui-this" lay-id="first"></li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-row">
+                        <div class="layui-col-xs12">
+                            <form id="getbaseinfo" class="layui-card" style="background-color:lightgoldenrodyellow;">
+                                <div style="text-align: center;font-size: 20px;">
+                                    输入小红书分享链接或原始链接
+                                </div>
+                                <div class="layui-card-body">
+                                    <textarea name="targettxt" class="layui-textarea"></textarea>
+                                    <div id="captcha" style="text-align:center" class="h-captcha" data-sitekey="e7a2725c-3bd4-4a4b-9eb7-31ce9c949300"></div>
+                                    <div style="text-align: center;">
+                                        <input id="set" type="button" value="获取" style="background-color: red;"
+                                            class="layui-btn layui-btn-normal layui-btn-lg">
+                                    </div>
+                                </div>
+                            </form>
+                            <div id="pics">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center;padding-bottom: 10px;">
+            <a href="https://github.com/InJeCTrL/XHSPicExtractor" target="_blank">
+                <img src="https://github.githubassets.com/favicons/favicon.svg" />
+            </a>
+            <br><br>
+            Running on DotNet 7.0 Minimal API
+        </div>
+    </div>
+    <script type="text/javascript">
+        layui.use(['layer', 'element', 'form'], function () {
+            var layer = layui.layer
+                , $ = layui.$
+                , element = layui.element;
+
+            $("#set").click(function () {
+                $.ajax({
+                    url: "",
+                    type: "post",
+                    headers: { "h-captcha-response": $("#captcha")[0].children[0].attributes["data-hcaptcha-response"].nodeValue },
+                    data: $("#targettxt").val(),
+                    crossDomain: true,
+                    success: function (data) {
+                        if (data["success"] != 0) {
+                            layer.msg(data["msg"]);
+                        }
+                        else {
+                            $("#pics").empty();
+                            let urls = data["urls"];
+                            for (let index = 0; index < urls.length; index++) {
+                                let url = urls[index];
+                                url = "https:" + url;
+
+                                $("#pics").append('<a href="' + url + '"><img src="' + url + '" width="100" height="100"></a>');
+                            }
+                        }
+                    },
+                    error: function (e) {
+                        layer.msg("服务暂不可用");
+                        console.log(e);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
