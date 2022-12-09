@@ -38,14 +38,11 @@ jobs:
             push: true
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/xhspicextractor:latest
       -
-          name: OKTETO Context
-          uses: okteto/context@latest
-          with:
-            token: ${{ secrets.OKTETO_TOKEN }}
-      -
           name: Get OKTETO Kubeconfig
           uses: okteto/actions/namespace@v1
           id: namespace
+          env:
+            KUBECONFIG: ${{ steps.namespace.outputs.kubeconfig }}
           with:
             token: ${{ secrets.OKTETO_TOKEN }}
             namespace: ${{ secrets.OKTETO_NAMESPACE }}
