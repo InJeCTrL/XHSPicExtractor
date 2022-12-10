@@ -100,9 +100,17 @@ app.MapPost("/imgs", async (context) =>
         pageUrl = pageUrl[..pageUrl.IndexOf("?")];
     }
 
-    var pageContent = await xhsClient.GetStringAsync(pageUrl);
+    string pageContent = string.Empty;
+    try
+    {
+        pageContent = await xhsClient.GetStringAsync(pageUrl);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.ToString());
+    }
 
-    if (!pageContent.Contains("xiaohongshu.com"))
+    if (pageContent == string.Empty || !pageContent.Contains("xiaohongshu.com"))
     {
         await Results.Json<ReturnPattern>(new ReturnPattern
         {
