@@ -42,7 +42,7 @@ jobs:
             namespace: ${{ secrets.OKTETO_NAMESPACE }}
       -
           name: Set secrets for k8s manifest
-          uses: datamonsters/replace-action@latest
+          uses: datamonsters/replace-action@v2
           with:
             files: './k8s.yml'
             replacements: '$HCaptchaSecret=${{ secrets.HCAPTCHASECRET }},$CorsTarget=${{ secrets.CORSTARGET }}'
