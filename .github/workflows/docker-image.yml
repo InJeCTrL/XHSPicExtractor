@@ -53,3 +53,9 @@ jobs:
           uses: okteto/apply@latest
           with:
             manifest: k8s.yml
+      -
+          name: Push changes
+          uses: okteto/push@latest
+          with:
+            namespace: ${{ secrets.OKTETO_NAMESPACE }}
+            name: xhspicextractor
