@@ -82,7 +82,7 @@
                             let urls = data["urls"];
                             for (let index = 0; index < urls.length; index++) {
                                 let url = urls[index];
-                                url = "https:" + url;
+                                url = "https://" + url;
 
                                 $("#pics").append('<a href="' + url + '"><img src="' + url + '" width="100" height="100"></a>');
                             }
