@@ -39,16 +39,16 @@ jobs:
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/xhspicextractor:latest
       -
           name: Login
-          uses: okteto/login@master
+          uses: okteto/login@latest
           with:
             token: ${{ secrets.OKTETO_TOKEN }}
       -
           name: Activate namespace
-          uses: okteto/namespace@master
+          uses: okteto/namespace@latest
           with:
             namespace: ${{ secrets.OKTETO_NAMESPACE }}
       -
           name: Deploy
-          uses: okteto/apply@master
+          uses: okteto/apply@latest
           with:
             manifest: k8s.yml
