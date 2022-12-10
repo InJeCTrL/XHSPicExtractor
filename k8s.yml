@@ -13,7 +13,7 @@ spec:
         app: xhspicextractor
     spec:
       containers:
-      - image: injectrl/xhspicextractor:lastest
+      - image: injectrl/xhspicextractor:latest
         name: xhspicextractor
         ports:
         - containerPort: 5000
