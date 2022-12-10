@@ -32,7 +32,7 @@ xhsClient.DefaultRequestHeaders.Add("Cookie", builder.Configuration.GetValue<str
 
 var app = builder.Build();
 
-app.UseCors();
+app.UseCors("CorsPolicy");
 
 app.Use(async (context, next) =>
 {
