@@ -11,7 +11,11 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "CorsPolicy",
     builder =>
     {
-        builder.WithOrigins(corsTarget).AllowAnyMethod().AllowCredentials();
+        builder
+        .WithOrigins(corsTarget)
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials();
     });
 });
 #endregion
