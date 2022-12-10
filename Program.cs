@@ -1,5 +1,5 @@
 const string shareLinkPrefix = "http://xhslink.com";
-const string pageSplitPattern = "class=\"note-image\"";
+const string pageSplitPattern = "\"url\":\"\\u002F\\u002F";
 const string hcaptchaURL = "https://hcaptcha.com/siteverify";
 
 var builder = WebApplication.CreateBuilder(args);
@@ -120,12 +120,16 @@ app.MapPost("/imgs", async (context) =>
         return;
     }
 
+    if (pageContent.Contains(pageSplitPattern))
+    {
+        pageContent = pageContent[(pageContent.IndexOf(pageSplitPattern) + pageSplitPattern.Length)..];
+    }
+
     string[] slices = pageContent.Split(pageSplitPattern, StringSplitOptions.RemoveEmptyEntries)[..^1];
     var urls = new List<string>();
     foreach (string slice in slices)
     {
-        var img_url = slice[(slice.LastIndexOf("src=\"") + 5)..];
-        img_url = img_url[..img_url.IndexOf("?")];
+        var img_url = slice[..slice.IndexOf("?")].Replace("\\u002F", "/");
         urls.Add(img_url);
     }
 
