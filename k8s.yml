@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xhspicextractor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xhspicextractor
+  template:
+    metadata:
+      labels:
+        app: xhspicextractor
+    spec:
+      containers:
+      - image: docker.io/injectrl/xhspicextractor:lastest
+        name: xhspicextractor
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xhspicextractor
+  annotations:
+    dev.okteto.com/auto-ingress: "true"
+spec:
+  ports:
+  - port: 5000
+    targetPort: 5000
+  selector:
+    app: xhspicextractor
+  type: LoadBalancer
