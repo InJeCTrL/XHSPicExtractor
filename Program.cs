@@ -2,17 +2,22 @@ const string shareLinkPrefix = "http://xhslink.com";
 const string pageSplitPattern = "class=\"note-image\"";
 const string hcaptchaURL = "https://hcaptcha.com/siteverify";
 
-var app = WebApplication.Create(args);
+var builder = WebApplication.CreateBuilder(args);
 
 #region 允许跨域
-string corsTarget = app.Configuration.GetValue<string>("CorsTarget") ?? "";
-app.UseCors(options => {
-    options.WithOrigins(corsTarget);
+string corsTarget = builder.Configuration.GetValue<string>("CorsTarget") ?? "";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsPolicy",
+    builder =>
+    {
+        builder.WithOrigins(corsTarget);
+    });
 });
 #endregion
 
 #region HCaptcha client
-string hcSecret = app.Configuration.GetValue<string>("HCaptchaSecret") ?? "";
+string hcSecret = builder.Configuration.GetValue<string>("HCaptchaSecret") ?? "";
 var hcaptchaClient = new HttpClient();
 #endregion
 
@@ -21,9 +26,13 @@ var xhsClient = new HttpClient(new HttpClientHandler
 {
     AllowAutoRedirect = false
 });
-xhsClient.DefaultRequestHeaders.Add("User-Agent", app.Configuration.GetValue<string>("UserAgent") ?? "");
-xhsClient.DefaultRequestHeaders.Add("Cookie", app.Configuration.GetValue<string>("Cookie") ?? "");
+xhsClient.DefaultRequestHeaders.Add("User-Agent", builder.Configuration.GetValue<string>("UserAgent") ?? "");
+xhsClient.DefaultRequestHeaders.Add("Cookie", builder.Configuration.GetValue<string>("Cookie") ?? "");
 #endregion
+
+var app = builder.Build();
+
+app.UseCors();
 
 app.Use(async (context, next) =>
 {
