@@ -17,6 +17,11 @@ spec:
         name: xhspicextractor
         ports:
         - containerPort: 5000
+        env:
+        - name: HCaptchaSecret
+          value: $HCaptchaSecret
+        - name: CorsTarget
+          value: $CorsTarget
 ---
 apiVersion: v1
 kind: Service

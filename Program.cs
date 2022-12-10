@@ -5,7 +5,7 @@ const string hcaptchaURL = "https://hcaptcha.com/siteverify";
 var builder = WebApplication.CreateBuilder(args);
 
 #region 允许跨域
-string corsTarget = builder.Configuration.GetValue<string>("CorsTarget") ?? "";
+string corsTarget = Environment.GetEnvironmentVariable("CorsTarget") ?? "";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "CorsPolicy",
@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
 #endregion
 
 #region HCaptcha client
-string hcSecret = builder.Configuration.GetValue<string>("HCaptchaSecret") ?? "";
+string hcSecret = Environment.GetEnvironmentVariable("HCaptchaSecret") ?? "";
 var hcaptchaClient = new HttpClient();
 #endregion
 

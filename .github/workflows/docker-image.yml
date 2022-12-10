@@ -17,14 +17,6 @@ jobs:
           name: Check out repository code
           uses: actions/checkout@v3
       -
-          name: Set secrets for appsettings
-          uses: microsoft/variable-substitution@v1
-          with:
-            files: ./appsettings.json
-          env:
-            HCaptchaSecret: ${{ secrets.HCAPTCHASECRET }}
-            CorsTarget: ${{ secrets.CORSTARGET }}
-      -
           name: Login to Docker Hub
           uses: docker/login-action@v2
           with:
@@ -48,6 +40,12 @@ jobs:
           uses: okteto/namespace@latest
           with:
             namespace: ${{ secrets.OKTETO_NAMESPACE }}
+      -
+          name: Set secrets for k8s manifest
+          uses: datamonsters/replace-action
+          with:
+            files: './k8s.yml'
+            replacements: '$HCaptchaSecret=${{ secrets.HCAPTCHASECRET }},$CorsTarget=${{ secrets.CORSTARGET }}'
       -
           name: Deploy
           uses: okteto/apply@latest
