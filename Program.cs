@@ -4,6 +4,13 @@ const string hcaptchaURL = "https://hcaptcha.com/siteverify";
 
 var app = WebApplication.Create(args);
 
+#region 允许跨域
+string corsTarget = app.Configuration.GetValue<string>("CorsTarget") ?? "";
+app.UseCors(options => {
+    options.WithOrigins(corsTarget);
+});
+#endregion
+
 #region HCaptcha client
 string hcSecret = app.Configuration.GetValue<string>("HCaptchaSecret") ?? "";
 var hcaptchaClient = new HttpClient();
