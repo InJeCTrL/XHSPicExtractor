@@ -38,19 +38,17 @@ jobs:
             push: true
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/xhspicextractor:latest
       -
-          name: Get OKTETO Kubeconfig
-          uses: okteto/actions/namespace@v1
-          id: namespace
+          name: Login
+          uses: okteto/login@master
           with:
             token: ${{ secrets.OKTETO_TOKEN }}
-            namespace: ${{ secrets.OKTETO_NAMESPACE }}
       -
-          name: Deploy and Wait
-          uses: okteto/actions/deploy@v1
-          env:
-            KUBECONFIG: ${{ steps.namespace.outputs.kubeconfig }}
+          name: Activate namespace
+          uses: okteto/namespace@master
           with:
             namespace: ${{ secrets.OKTETO_NAMESPACE }}
+      -
+          name: Deploy
+          uses: okteto/apply@master
+          with:
             manifest: k8s.yml
-            tag: ${{ secrets.DOCKERHUB_USERNAME }}/xhspicextractor:latest
-            waitOn: deployment/xhspicextractor
