@@ -1,0 +1,10 @@
+version: '3.3'
+services:
+    xhspicextractor:
+        container_name: xhspicextractor
+        environment:
+            - HCaptchaSecret=$HCaptchaSecret
+            - CorsTarget=$CorsTarget
+        ports:
+            - '5000:5000'
+        image: 'injectrl/xhspicextractor:latest'
