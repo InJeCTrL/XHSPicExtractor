@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Prevent instance destroy
 
 on:
   push:
@@ -22,4 +22,4 @@ jobs:
         url: 'https://xhspicextractor-injectrl.cloud.okteto.net/'
         method: 'GET'
         preventFailureOnNoResponse: 'true'
-        ignoreStatusCodes: '404,401,500,501'
+        ignoreStatusCodes: '404,401,500,501,502'
